@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Input from "./input";
+import Voter from "./voter";
 
 export default function Comments({ depth, name, comment }: { depth: number, name?: string, comment?: string }) {
   // use depth to determine indentation and whether can have replies
@@ -32,6 +33,7 @@ export default function Comments({ depth, name, comment }: { depth: number, name
     <>
       <div>{name}</div>
       <div>{comment}</div>
+      <Voter/>
       {/* dont allow replying past depth 2 */}
       { (depth < 3) && <input type='button' value='Reply' onClick={() => {setShowInput(!showInput)}}/> }
       {/* add new comments to state */}

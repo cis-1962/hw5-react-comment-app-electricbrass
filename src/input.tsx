@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-export default function Input({ newPost, onSubmit }: 
-  { newPost: boolean, onSubmit: (name: string, comment: string) => void })  {
-  const [comment, setComment] = useState('');
+export default function Input({ newPost, op, onSubmit }: 
+  { newPost: boolean, op?: string, onSubmit: (name: string, comment: string) => void })  {
+  const [comment, setComment] = useState(!newPost && op !== undefined ? `@${op}` : '');
   const [name, setName] = useState('');
   // use css style to make text boxes be different sizes and aligned vertically
   return (

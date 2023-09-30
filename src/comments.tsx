@@ -8,17 +8,30 @@ export default function Comments({ depth, name, comment }: { depth: number, name
   const [showInput, setShowInput] = useState(false);
   const [comments, setComments] = useState<{ [id: number]: {name: string, comment: string} }>({});
   const [commentID, setCommentID] = useState(0);
-  if (depth === -1) {
+  if (depth <= -1) {
     return (
       <>
-        <Input newPost onSubmit={(n: string, c:string) => {
-          setComments(() => ({
-            ...comments,
-            [commentID]: {name: n, comment: c}
-          }));
-          setCommentID(commentID + 1);
-        }}/>
-        <div>
+        <div style={{
+          boxShadow: 'black 0px 0px 5px', 
+          width: 'fit-content', 
+          position: 'relative', 
+          left: '10px', 
+          top: '10px', 
+          padding: '10px'
+        }}>
+          <Input newPost onSubmit={(n: string, c:string) => {
+            setComments(() => ({
+              ...comments,
+              [commentID]: {name: n, comment: c}
+            }));
+            setCommentID(commentID + 1);
+          }}/>
+        </div>
+        <div style={{
+          position: 'relative', 
+          left: '10px', 
+          top: '20px'
+        }}>
           <h2>
             Posts:
           </h2>
@@ -30,12 +43,20 @@ export default function Comments({ depth, name, comment }: { depth: number, name
     );
   }
   return (
-    <>
-      <div>{name}</div>
+    <div style={{
+      position: 'relative', 
+      top: '10px',
+      left: depth !== 0 ? '10px' : '',
+      padding: '10px',
+      boxShadow: depth === 0 ? 'black 0px 0px 5px' : '', 
+      width: 'fit-content',
+      marginBottom: '15px'
+    }}>
+      <div style={{fontWeight: 'bold'}}>{name}</div>
       <div>{comment}</div>
-      <Voter/>
       {/* dont allow replying past depth 2 */}
-      { (depth < 3) && <input type='button' value='Reply' onClick={() => {setShowInput(!showInput)}}/> }
+      { (depth < 2) && <input type='button' value='Reply' onClick={() => {setShowInput(!showInput)}}/> }
+      <Voter/>
       {/* add new comments to state */}
       { showInput && <Input newPost={false} op={name} onSubmit={(n: string, c: string) => {
         // setComments(() => {
@@ -53,6 +74,6 @@ export default function Comments({ depth, name, comment }: { depth: number, name
       {Object.entries(comments).map(([k, v]) => (
         <Comments depth={depth + 1} name={v.name} comment={v.comment} key={k}/>
       ))}
-    </>
+    </div>
   );
 }

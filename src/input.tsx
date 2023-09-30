@@ -31,6 +31,8 @@ export default function Input({ newPost, onSubmit }:
           return;
         }
         onSubmit(name, comment);
+        setName('');
+        setComment('');
       }}
     />
   </>

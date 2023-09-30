@@ -7,6 +7,27 @@ export default function Comments({ depth, name, comment }: { depth: number, name
   const [showInput, setShowInput] = useState(false);
   const [comments, setComments] = useState<{ [id: number]: {name: string, comment: string} }>({});
   const [commentID, setCommentID] = useState(0);
+  if (depth === -1) {
+    return (
+      <>
+        <Input newPost onSubmit={(n: string, c:string) => {
+          setComments(() => ({
+            ...comments,
+            [commentID]: {name: n, comment: c}
+          }));
+          setCommentID(commentID + 1);
+        }}/>
+        <div>
+          <h2>
+            Posts:
+          </h2>
+          {Object.entries(comments).map(([k, v]) => (
+            <Comments depth={depth + 1} name={v.name} comment={v.comment} key={k}/>
+          ))}
+        </div>
+      </>
+    );
+  }
   return (
     <>
       <div>{name}</div>
@@ -24,8 +45,9 @@ export default function Comments({ depth, name, comment }: { depth: number, name
           [commentID]: {name: n, comment: c}
         }));
         setCommentID(commentID + 1);
+        setShowInput(false);
       }}/> }
-      {/* display replied */}
+      {/* display replies */}
       {Object.entries(comments).map(([k, v]) => (
         <Comments depth={depth + 1} name={v.name} comment={v.comment} key={k}/>
       ))}

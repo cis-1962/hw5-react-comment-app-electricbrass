@@ -49,14 +49,25 @@ export default function Comments({ depth, name, comment }: { depth: number, name
       left: depth !== 0 ? '10px' : '',
       padding: '10px',
       boxShadow: depth === 0 ? 'black 0px 0px 5px' : '', 
-      width: 'fit-content',
+      minWidth: 'fit-content',
+      width: '10vw',
       marginBottom: '15px'
     }}>
-      <div style={{fontWeight: 'bold'}}>{name}</div>
-      <div>{comment}</div>
-      {/* dont allow replying past depth 2 */}
-      { (depth < 2) && <input type='button' value='Reply' onClick={() => {setShowInput(!showInput)}}/> }
-      <Voter/>
+      <div style={{
+        display: 'flex', 
+        flexDirection: 'row', 
+        justifyContent: 'space-between', 
+        minWidth: 'fit-content',
+        width: '10vw'
+      }}>
+        <div>
+          <div style={{fontWeight: 'bold'}}>{name}</div>
+          <div style={{marginBottom: '10px'}}>{comment}</div>
+          {/* dont allow replying past depth 2 */}
+          { (depth < 2) && <input type='button' value='Reply' onClick={() => {setShowInput(!showInput)}}/> }
+        </div>
+        <Voter/>
+      </div>
       {/* add new comments to state */}
       { showInput && <Input newPost={false} op={name} onSubmit={(n: string, c: string) => {
         // setComments(() => {

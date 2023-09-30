@@ -9,7 +9,7 @@ export default function Input({ newPost, onSubmit }:
   <>
     <div>
       {newPost && <h1> New Post </h1>}
-      {newPost || <h1> Reply </h1>}
+      {newPost || <h3> Reply </h3>}
     </div>
     <input
       type='text'
@@ -27,6 +27,9 @@ export default function Input({ newPost, onSubmit }:
       type='button'
       value='Post'
       onClick={() => {
+        if (name === '' || comment === '') {
+          return;
+        }
         onSubmit(name, comment);
       }}
     />
